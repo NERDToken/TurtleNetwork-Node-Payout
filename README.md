@@ -15,6 +15,8 @@ Based partly on iammortimer's script - https://github.com/iammortimer/TN_LPoS_Pa
 
 
 Config File: 
+- Rename config_example.json to config.json and modify as needed. 
+
 ```
 {
     "node": "<insert your node address and port>",
