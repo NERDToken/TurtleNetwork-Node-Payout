@@ -35,6 +35,4 @@ Config File:
     "privatekey" : "<insert private key for your wallet>",
     "telegramKey" : "<insert telegram bot API key>"
 }
-
-
 ```
