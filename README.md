@@ -36,3 +36,9 @@ Config File:
     "telegramKey" : "<insert telegram bot API key>"
 }
 ```
+
+### TODO List:
+- check for existance of start_block.txt and create if needed
+- create config file (or add to existing) to store token information
+- clean up of existing config file
+- clean up code that grabs blocks
