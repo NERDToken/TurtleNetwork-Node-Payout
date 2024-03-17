@@ -23,7 +23,6 @@ paymentFile = config['paymentStorage']
 amtNERD = 250000000000  # 2500 weekly
 amtCOOL = 125000  # 125 weekly (COOL only uses 3 decimals)
 amtHT = 0.1  # 10% of TN
-amtCODE = 0.1  # 10% of TN
 
 # we use this txt file to store the last block we used during the previous run.
 with open('start_block.txt', 'r') as f:
@@ -231,7 +230,6 @@ def createTokenPayment(token):
     totalNERD = amtNERD
     totalCOOL = amtCOOL
     totalHT = totalTN * amtHT
-    totalCODE = totalTN * amtCODE
 
     for i in parsed:
         percent = i['amount'] / totalTN
@@ -240,8 +238,6 @@ def createTokenPayment(token):
             amount = round(totalNERD * percent)
         elif token == "HT":
             amount = round(totalHT * percent)
-        elif token == "CODE":
-            amount = round(totalCODE * percent)
         elif token == "COOL":
             amount = round(totalCOOL * percent)
         else:
@@ -265,9 +261,6 @@ def pay(token):
     elif token == "HT":
         paymentStorage = "HT.json"
         assetid = "8M54YoLc3E5h2piDtq3QzBKYPUimgSwS3xEVki8xr1gW"
-    elif token == "CODE":
-        paymentStorage = "CODE.json"
-        assetid = "EB4CUQH4fHzzQt9YjcHtA6T7uosHNH9RnQKHgBdZHPCB"
     elif token == "COOL":
         paymentStorage = "COOL.json"
         assetid = "4nMNMUF6FUyEDk1DuchJjg5CK2a9SR4LzekQKLL3XozY"
@@ -309,7 +302,7 @@ def pay(token):
 
 
 # create the message we want to output based on calculations.
-def createMessage(tn, nerd, cool, ht, code, pmts):
+def createMessage(tn, nerd, cool, ht, pmts):
     if config['doPayment'] == 0:
         istest = f"\n--------------------This is Just a Test Run. No Payments Sent-------------------\n\n"
     else:
@@ -324,7 +317,6 @@ def createMessage(tn, nerd, cool, ht, code, pmts):
               f"NERD: {int(nerd) / 100000000}\n"
               f"COOL: {int(cool) / 1000}\n"
               f"High Token: {int(ht) / 100000000}\n"
-              f"CODE: {int(code) / 100000000}\n"
               f"Lessors: {pmts}\n\n"
               f"Thanks from NERD Token!\n"
               f"Telegram - https://t.me/TNNERD\n"
@@ -421,7 +413,6 @@ def main():
     createTokenPayment("TN")
     createTokenPayment("NERD")
     createTokenPayment("HT")
-    createTokenPayment("CODE")
     createTokenPayment("COOL")
 
     print('\n')
@@ -431,10 +422,9 @@ def main():
     distNERD, txNERD = pay("NERD")
     distCOOL, txCOOL = pay("COOL")
     distHT, txHT = pay("HT")
-    distCODE,txCODE = pay("CODE")
 
     # pass the above dist variables to createMessage, so we can formulate the output to send to telegram
-    message = createMessage(distTN, distNERD, distCOOL, distHT, distCODE, numPayments)
+    message = createMessage(distTN, distNERD, distCOOL, distHT,  numPayments)
 
     # take the message we put together and send it to telegram TODO - put the below in config file
     sendTelegramMsg(message, '<chatid1>')  # chatid for channel 1
